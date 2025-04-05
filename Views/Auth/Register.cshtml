@@ -1,0 +1,27 @@
+﻿@model MyProject.Web.Models.Dto.RegisterationDto;
+
+<form method="post" enctype="multipart/form-data">
+    <div class="container border p-4">
+        <div class="row text-center mb-2">
+            <h1>Register</h1>
+        </div>
+        <div class="row text-center">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+
+        <div class="row offset-3 col-6 mb-2">
+            <input asp-for="Name" type="text" class="form-control" placeholder="Name..." />
+        </div>
+        <div class="row offset-3 col-6 mb-2">
+            <input asp-for="UserName" type="text" class="form-control" placeholder="Username..." />
+        </div>
+        <div class="row offset-3 col-6 mb-2">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Password..." />
+        </div>
+
+        <div class="row offset-3 col-6">
+            <button type="submit" class="form-control btn-success">Register</button>
+        </div>
+     </div>
+            
+ </form>

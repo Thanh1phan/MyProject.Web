@@ -1,0 +1,114 @@
+﻿@model MyProject.Web.Models.ViewModels.ProductUpdateVM
+
+<h1>Update Product</h1>
+<hr />
+<div class="offset-3">
+    <div class="col-6">
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <input asp-for="Product.Id" class="form-control" />
+            </div>
+
+            <div class="form-group pb-2">
+                <label asp-for="Product.Name" class="control-label"></label>
+                <input asp-for="Product.Name" class="form-control" />
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label class="control-label">Category</label>
+                <select asp-for="Product.B3Id" class="form-select" asp-items="@Model.CategoryList">
+                    <option disabled selected>--Select Category--</option>
+                </select>
+                <span asp-validation-for="Product.B3Id" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label class="control-label">Price including tax</label>
+                <input type="number" asp-for="Product.ZIBAIKA" class="form-control" />
+                <span asp-validation-for="Product.ZIBAIKA" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label class="control-label">Price excluding tax</label>
+                <input type="number" asp-for="Product.ZOBAIKA" class="form-control" />
+                <span asp-validation-for="Product.ZOBAIKA" class="text-danger"></span>
+            </div>
+
+            <div class="form-control mb-2">
+                <label>Images:</label>
+                <ol class="list-group offset-1" style="list-style-type:decimal">
+                    @try
+                    {
+                        for (int i = 0; i < Model.Product.ListUrlImage.Count; i++)
+                        {
+                            <div class="form-group" hidden>
+                                <input asp-for="Product.ListUrlImage[i]" class="form-control" />
+                            </div>
+                            <li class="list-group-item-action col-10">
+                                <img src="@Model.Product.ListUrlImage[i]" width="200"/>
+
+                                <div class="mb-2 mt-2">
+                                    <label>Replace:</label>
+                                    <input type="file"
+                                           name="Product.ReplaceImages"
+                                           class="form-control"
+                                           accept="image/*"
+                                           onchange="onReplaceImageChanged(this, @i)" />
+                                    <!-- Preview ảnh mới -->
+                                    <div class="mt-2">
+                                        <img id="preview-image-@i" style="max-width: 200px; display: none;" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <input type="checkbox" asp-for="Product.RemoveImageIndexes[i]" class="form-check-input" />
+                                    <label class="form-check-label" asp-for="Product.RemoveImageIndexes[i]">Delete</label>
+                                </div>
+                            </li>
+                        }
+                    }
+                    catch { }
+                </ol>
+            </div>
+
+            <div class="form-control mb-2">
+                <label>Add new images:</label>
+                <input asp-for="Product.NewImages" multiple class="form-control" />
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <a asp-action="Index" class="btn-primary btn form-control ">Back to List</a>
+                </div>
+                <div class="offset-5 col-3">
+                    <input type="submit" value="Update" class="btn btn-success form-control" />
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<script>
+    function onReplaceImageChanged(input, index) {
+        const container = input.parentElement;
+        if (!container.querySelector(`input[name="Product.ReplaceImageIndexes"][value="${index}"]`)) {
+            const hidden = document.createElement("input");
+            hidden.type = "hidden";
+            hidden.name = "Product.ReplaceImageIndexes";
+            hidden.value = index;
+            container.appendChild(hidden);
+        }
+
+        // Preview image
+        const file = input.files[0];
+        if (file) {
+            const preview = document.getElementById("preview-image-" + index);
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

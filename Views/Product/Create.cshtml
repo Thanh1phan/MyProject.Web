@@ -1,0 +1,47 @@
+﻿@model MyProject.Web.Models.ViewModels.ProductCreateVM
+
+<h1>Create Product</h1>
+<hr />
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+
+        </div>
+        <div class="form-group pb-2">
+            <label asp-for="Product.Name" class="control-label"></label>
+            <input asp-for="Product.Name" class="form-control" />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <label class="control-label">Category</label>
+            <select asp-for="Product.B3Id" class="form-select" asp-items="@Model.CategoryList">
+                <option disabled selected value="">--Select Category--</option>
+            </select>
+            <span asp-validation-for="Product.B3Id" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <label class="control-label">Price including tax</label>
+            <input asp-for="Product.ZIBAIKA" class="form-control" type="number"/>
+            <span asp-validation-for="Product.ZIBAIKA" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <label class="control-label">Price excluding tax</label>
+            <input asp-for="Product.ZOBAIKA" class="form-control" type="number" />
+            <span asp-validation-for="Product.ZOBAIKA" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <label class="control-label">Images</label>
+            <input asp-for="Product.ListUrlImage" class="form-control" />
+            <span asp-validation-for="Product.ListUrlImage" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+</form>
+
