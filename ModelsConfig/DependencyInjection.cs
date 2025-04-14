@@ -17,6 +17,7 @@ namespace MyProject.Web.Config
             services.AddSingleton<IApiMessageRequestBuilder, ApiMessageRequestBuilder>();
             services.AddScoped<IBaseService, BaseService>();
             services.AddScoped<ITokenProvider, TokenProvider>();
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

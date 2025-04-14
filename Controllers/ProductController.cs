@@ -2,13 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using MyProject.Web.Models;
 using MyProject.Web.Models.Dto;
 using MyProject.Web.Models.ViewModels;
 using MyProject.Web.Services.IServices;
 using MyProject.Web.Utility;
-using Newtonsoft.Json;
 
 namespace MyProject.Web.Controllers
 {
@@ -48,6 +46,10 @@ namespace MyProject.Web.Controllers
                     TempData["success"] = "Product created successfully";
                     return RedirectToAction("Index");
                 }
+                else
+                {
+                    TempData["error"] = "Error encountered.";
+                }
             }
 
             var categories = await _productService.GetAllCategories<APIResponse>();
@@ -56,7 +58,7 @@ namespace MyProject.Web.Controllers
                 model.CategoryList = SolutionModule.ConvertJsonToObject<IEnumerable<CategoryDto>>(categories.Result)
                        .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
             }
-            TempData["error"] = "Error encountered.";
+            
             return View(model);
         }
 
@@ -87,7 +89,7 @@ namespace MyProject.Web.Controllers
             var response = await _productService.DeleteProduct<APIResponse>(id);
             if (SolutionModule.CheckResponse(response))
             {
-                TempData["success"] = "Product updated successfully";
+                TempData["success"] = "Product deleted successfully";
             }
             else
             {

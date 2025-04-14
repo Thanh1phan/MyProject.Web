@@ -61,7 +61,7 @@ namespace MyProject.Web.Services
             return await _baseService.SendAsync<T>(new APIRequest()
             {
                 ApiType = ApiType.GET,
-                Url = _url + "/api/Product/GetDetail?id="+id,
+                Url = _url + "/api/Product/Get/" + id,
             });
         }
 

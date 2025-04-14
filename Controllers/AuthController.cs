@@ -67,14 +67,20 @@ namespace MyProject.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterationDto obj)
+        public async Task<IActionResult> Register(RegisterationDto model)
         {
-            APIResponse result = await _authService.RegisterAsync<APIResponse>(obj);
-            if (result != null && result.IsSuccess)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+            APIResponse result = await _authService.RegisterAsync<APIResponse>(model);
+            if (SolutionModule.CheckResponse(result))
+            {
+                TempData["success"] = "User created successfully";
                 return RedirectToAction("Login");
             }
-            return View();
+            TempData["error"] = "Error encountered.";
+            return View(model);
         }
 
 

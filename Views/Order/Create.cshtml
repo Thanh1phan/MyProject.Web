@@ -1,0 +1,128 @@
+﻿@model MyProject.Web.Models.ViewModels.OrderCreateVM
+
+<!-- content -->
+<div class="py-5">
+    <div class="container">
+        <div class="row gx-5">
+            <aside class="col-lg-6">
+                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                    <a id="mainImageLink" data-fslightbox="mygalley" class="rounded-4" href="" target="_blank" data-type="image">
+                        <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="@Model.Product.ListUrlImage.FirstOrDefault()" />
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    @foreach (var item in Model.Product.ListUrlImage)
+                    {
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" href="#" target="_blank"
+                           data-type="image"
+                           onclick="event.preventDefault(); changeMainImage('@item')">
+                            <img width="60" height="60" class="rounded-2" src="@item" />
+                        </a>
+                    }
+                </div>
+                <!-- thumbs-wrap.// -->
+                <!-- gallery-wrap .end// -->
+            </aside>
+            <main class="col-lg-6">
+                <form asp-controller="Order" asp-action="Create" method="post">
+                    <div class="ps-lg-3">
+                        <h4 class="title text-dark">
+                            @Model.Product.Name <br />
+                        </h4>
+                        <div class="d-flex flex-row my-3">
+                            <div class="text-warning mb-1 me-2">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="ms-1">
+                                    4.5
+                                </span>
+                            </div>
+                            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                            <span class="text-success ms-2">In stock</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span class="h5">@Model.Product.ZIBAIKA.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</span>
+                            <span class="h5 invisible" asp-for="@Model.Product.ZIBAIKA"></span>
+                            <span class="text-muted"></span>
+                        </div>
+
+                        <p>
+                            Introducing the ultimate companion for capturing life’s precious moments – the Video Camera Camcorder Digital Camera Recorder Full HD 1080P 15FPS 24MP! This top-of-the-line camcorder is equipped with a 3.0-inch 270-degree rotation LCD screen, allowing you to frame your shots with ease from any angle.
+
+                            With its powerful 16X zoom capabilities, you can zoom in and out to get the perfect shot every time. Whether you’re capturing family gatherings, outdoor adventures, or special events, this camcorder ensures crystal-clear footage in stunning Full HD 1080P resolution at 15 frames per second.
+                        </p>
+
+                        <div class="row">
+                            <dt class="col-3">Brand</dt>
+                            <dd class="col-9">@Model.Product.B3Name</dd>
+                        </div>
+
+                        <hr />
+
+                        <div class="row mb-3">
+                            <div class="col-md-4 col-6">
+                                <label class="mb-2 d-block">Quantity</label>
+                                <div class="input-group" style="width: 100px;">
+                                    <input type="number" min="1" value="1" class="form-control text-center border" asp-for="Order.Quantity" onchange="SetAmount(this.value, @Model.Product.ZIBAIKA)" onload="SetAmount(1, @Model.Product.ZIBAIKA)" />
+                                    <span asp-validation-for="Order.Quantity" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="mb-2 d-block">Total Amount</label>
+                                <div class="input-group" style="width: 200px;">
+                                    <div id="totalAmount">
+                                        @Model.Product.ZIBAIKA.ToString("C", new System.Globalization.CultureInfo("vi-VN"))
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-2">
+                                <label class="mb-2 d-block">Name</label>
+                                <input type="text" placeholder="Name" asp-for="Order.Name" class="form-control border" />
+                                <span asp-validation-for="Order.Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label class="mb-2 d-block">Address</label>
+                                <input type="text" placeholder="Address" asp-for="Order.Address" class="form-control border" />
+                                <span asp-validation-for="Order.Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label class="mb-2 d-block">Phone number</label>
+                                <input type="tel" placeholder="Phone number" asp-for="Order.PhoneNumber" class="form-control border" />
+                                <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="Order.M01CId" value="@Model.Product.M01CId" />
+                        <input type="hidden" asp-for="Order.UnitPrice" value="@Model.Product.ZIBAIKA" />
+                        <input type="hidden" asp-for="Order.TotalAmount" id="totalAmountInput" value="@Model.Product.ZIBAIKA"/>
+
+                        <input type="submit" class="btn btn-primary" value="Buy now"/>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+</div>
+<!-- content -->
+
+<script>
+        function SetAmount(quantity, unitPrice)
+    {
+        let amount = quantity * unitPrice;
+        document.getElementById("totalAmount").innerHTML = amount.toLocaleString("vi-VN") + " ₫";
+        document.getElementById("totalAmountInput").value = amount;
+    }
+
+        function changeMainImage(imageUrl) {
+        const mainImg = document.getElementById("mainImage");
+        const mainLink = document.getElementById("mainImageLink");
+
+        mainImg.src = imageUrl;
+        mainLink.href = imageUrl;
+    }
+</script>
