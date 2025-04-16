@@ -79,7 +79,7 @@ namespace MyProject.Web.Controllers
                 TempData["success"] = "User created successfully";
                 return RedirectToAction("Login");
             }
-            TempData["error"] = "Error encountered.";
+            TempData["error"] = (result.ErrorMessages.FirstOrDefault() == null ? "Error encountered." : result.ErrorMessages.FirstOrDefault());
             return View(model);
         }
 
